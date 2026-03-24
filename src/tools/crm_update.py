@@ -1,3 +1,5 @@
+from typing import List, Optional
+
 import structlog
 from langchain_core.tools import tool
 from sqlalchemy import select

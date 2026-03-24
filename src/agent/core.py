@@ -15,10 +15,7 @@ from langgraph.prebuilt import create_react_agent
 from src.agent.guardrails import ViolationType, run_guardrails
 from src.agent.memory import SlidingWindowMemory
 from src.config import settings
-from src.tools.crm_update import get_customer_info, update_customer_info
-from src.tools.order_lookup import lookup_order, lookup_orders_by_email
-from src.tools.refund_processor import check_refund_status, process_refund
-from src.tools.twilio_notifier import send_sms_notification
+from src.tools import ALL_TOOLS
 
 logger = structlog.get_logger()
 
@@ -38,17 +35,6 @@ Guidelines:
 - Never share internal system details or raw error messages with customers.
 - Keep responses concise and actionable.
 """
-
-ALL_TOOLS = [
-    lookup_order,
-    lookup_orders_by_email,
-    process_refund,
-    check_refund_status,
-    update_customer_info,
-    get_customer_info,
-    send_sms_notification,
-]
-
 
 class SupportAgent:
     """Autonomous customer support agent with memory and safety guardrails."""

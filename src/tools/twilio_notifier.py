@@ -1,3 +1,5 @@
+from typing import Optional
+
 import structlog
 from langchain_core.tools import tool
 from twilio.rest import Client as TwilioClient
@@ -6,7 +8,7 @@ from src.config import settings
 
 logger = structlog.get_logger()
 
-_twilio_client = None
+_twilio_client: Optional[TwilioClient] = None
 
 
 def _get_twilio_client() -> TwilioClient:

@@ -1,6 +1,7 @@
 import uuid
 from datetime import datetime
 from decimal import Decimal
+from typing import Set, Tuple
 
 import structlog
 from langchain_core.tools import tool
@@ -13,12 +14,16 @@ from src.db.models import Order, OrderStatus, Refund, RefundStatus
 
 logger = structlog.get_logger()
 
-REFUNDABLE_STATUSES = {OrderStatus.CONFIRMED, OrderStatus.SHIPPED, OrderStatus.DELIVERED}
+REFUNDABLE_STATUSES: Set[OrderStatus] = {
+    OrderStatus.CONFIRMED,
+    OrderStatus.SHIPPED,
+    OrderStatus.DELIVERED,
+}
 
 
 def _validate_refund_request(
     order: Order, amount: Decimal
-) -> tuple[bool, str]:
+) -> Tuple[bool, str]:
     """Run business-rule checks before approving a refund."""
     if order.status not in REFUNDABLE_STATUSES:
         return False, (

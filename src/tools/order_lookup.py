@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 import structlog
 from langchain_core.tools import tool
@@ -7,7 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
 from src.db.connection import get_session
-from src.db.models import Customer, Order
+from src.db.models import Customer, Order, Refund
 
 logger = structlog.get_logger()
 
