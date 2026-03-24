@@ -7,6 +7,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.agent.core import get_or_create_agent, remove_session
+from src.api.middleware import RateLimitMiddleware, RequestLoggingMiddleware
 from src.api.schemas import ChatRequest, ChatResponse, HealthResponse, SessionInfo
 from src.db.connection import close_db, init_db
 
@@ -36,6 +37,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(RequestLoggingMiddleware)
+app.add_middleware(RateLimitMiddleware, requests_per_minute=60, burst=20)
 
 
 @app.get("/health", response_model=HealthResponse)
